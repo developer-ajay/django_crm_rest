@@ -1,5 +1,6 @@
 from pathlib import Path
 from datetime import datetime
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,8 +28,8 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(days=1),  # default: 5 min       
-    'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=7),    # default: 1 day       
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),  # default: 5 min       
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),    # default: 1 day       
     'ROTATE_REFRESH_TOKENS': False,
 }
 
