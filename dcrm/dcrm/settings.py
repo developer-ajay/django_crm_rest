@@ -1,5 +1,4 @@
 from pathlib import Path
-from datetime import datetime
 from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
