@@ -1,0 +1,57 @@
+# Virtual environment
+venv/
+.venv/
+env/
+ENV/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Django-related
+db.sqlite3
+*.sqlite3
+media/
+staticfiles/
+static/
+
+# Environment variables and secrets
+.env
+*.env
+
+# Logs and debug files
+*.log
+logs/
+debug.log
+
+# IDE and editor-specific files
+.vscode/
+.idea/
+*.swp
+*~
+
+# Compiled files
+*.pyc
+*.pyo
+*.pyd
+
+# Migrations (Optional: If you want to exclude initial migrations)
+**/migrations/*.pyc
+**/migrations/*.pyo
+**/migrations/*.pyd
+**/migrations/__pycache__/
+**/migrations/*.py
+
+# MacOS and Windows system files
+.DS_Store
+Thumbs.db
+
+# Pipenv and poetry
+Pipfile
+Pipfile.lock
+poetry.lock
+
+# Docker and deployment
+docker-compose.override.yml
+.envrc
