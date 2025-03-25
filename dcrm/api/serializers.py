@@ -16,3 +16,7 @@ class RecordSerializer(serializers.ModelSerializer):
     class Meta:
         model = Record
         fields = '__all__'
+        
+    def create(self, validated_data):
+        record = Record.objects.create(**validated_data)
+        return record
