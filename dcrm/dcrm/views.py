@@ -3,6 +3,3 @@ from django.views.generic import TemplateView
 # Create your views here.   
 def home(request):
     return render(request, 'index.html')
-
-class classView(TemplateView):
-    template_name = 'classView.html'
