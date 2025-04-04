@@ -17,7 +17,9 @@
 document.addEventListener("DOMContentLoaded", function () {
     const loginLink = document.getElementById("loginLink");
     const registerLink = document.getElementById("registerLink");
-    const loginButton = document.querySelector(".btn.btn-primary");
+    const loginButton = document.getElementById("mainLoginBtn");
+    const registerButton = document.getElementById("mainRegisterBtn");
+    
   
     const openLoginModal = () => {
       const loginModal = new bootstrap.Modal(document.getElementById("loginModal"));
@@ -45,6 +47,13 @@ document.addEventListener("DOMContentLoaded", function () {
   
     if (registerLink) {
       registerLink.addEventListener("click", function (e) {
+        e.preventDefault();
+        openRegisterModal();
+      });
+    }
+
+    if (registerButton) {
+      registerButton.addEventListener("click", function (e) {
         e.preventDefault();
         openRegisterModal();
       });
