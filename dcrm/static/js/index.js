@@ -93,10 +93,23 @@ newPassword.addEventListener('input' ,toggleRegisterButton);
 async function handleLogin() {
   const usernameValue = username.value;
   const passwordValue = password.value;
-
-  console.log(usernameValue);
-  console.log(passwordValue);
-  console.log("Inside login"); 
+  
+  try {
+    const response = await axios.post("/api/auth/token", {
+      username: usernameValue,
+      password: passwordValue
+    });
+    localStorage.setItem("access", response.data.access);
+    localStorage.setItem("refresh", response.data.refresh);
+    username.value = "";
+    password.value = "";
+    $("#loginModal").modal("hide");
+  } catch (err) {
+    username.value = "";
+    password.value = "";
+    alert("Invalid login");
+    console.error(err);  
+  }
 }
 
 async function handleRegister() {
