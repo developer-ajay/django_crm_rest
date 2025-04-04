@@ -53,11 +53,11 @@
         <h5 class="modal-title">Login</h5>
       </div>
       <div class="modal-body">
-        <input type="text" id="username" class="form-control mb-2" placeholder="Username" />
-        <input type="password" id="password" class="form-control mb-2" placeholder="Password" />
+        <input type="text" id="username" class="form-control mb-2" placeholder="Username" required />
+        <input type="password" id="password" class="form-control mb-2"  placeholder="Password" required />
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary" onclick="handleLogin()">Login</button>
+        <button id="loginBtn" class="btn btn-primary" onclick="handleLogin()" disabled>Login</button>
       </div>
     </div>
   </div>
@@ -75,9 +75,26 @@
         <input type="password" id="newPassword" class="form-control mb-2" placeholder="Password" />
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary" onclick="handleRegister()">Login</button>
+        <button id="registerBtn" class="btn btn-primary" onclick="handleRegister()" disabled>Login</button>
       </div>
     </div>
+  </div>
+</div>
+
+ <!-- Records Table -->
+ <div class="card m-3" id="recordSection" style="display: none;">
+  <div class="card-header text-center">
+    <h4>Customer Records</h4>
+  </div>
+  <div class="card-body">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>First</th><th>Last</th><th>Email</th><th>Phone</th><th>City</th>
+        </tr>
+      </thead>
+      <tbody id="recordBody"></tbody>
+    </table>
   </div>
 </div>
 

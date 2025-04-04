@@ -14,49 +14,100 @@
 //     console.log(err);
 // });
 
-document.addEventListener("DOMContentLoaded", function () {
-    const loginLink = document.getElementById("loginLink");
-    const registerLink = document.getElementById("registerLink");
-    const loginButton = document.getElementById("mainLoginBtn");
-    const registerButton = document.getElementById("mainRegisterBtn");
-    
-  
-    const openLoginModal = () => {
-      const loginModal = new bootstrap.Modal(document.getElementById("loginModal"));
-      loginModal.show();
-    };
-  
-    const openRegisterModal = () => {
-      const registerModal = new bootstrap.Modal(document.getElementById("registrationModal"));
-      registerModal.show();
-    };
-  
-    if (loginLink) {
-      loginLink.addEventListener("click", function (e) {
-        e.preventDefault();
-        openLoginModal();
-      });
-    }
-  
-    if (loginButton) {
-      loginButton.addEventListener("click", function (e) {
-        e.preventDefault();
-        openLoginModal();
-      });
-    }
-  
-    if (registerLink) {
-      registerLink.addEventListener("click", function (e) {
-        e.preventDefault();
-        openRegisterModal();
-      });
-    }
 
-    if (registerButton) {
-      registerButton.addEventListener("click", function (e) {
-        e.preventDefault();
-        openRegisterModal();
-      });
-    }
-  });
+document.addEventListener("DOMContentLoaded", function () {
+  const loginLink = document.getElementById("loginLink");
+  const registerLink = document.getElementById("registerLink");
+  const loginButton = document.getElementById("mainLoginBtn");
+  const registerButton = document.getElementById("mainRegisterBtn");
   
+
+  const openLoginModal = () => {
+    const loginModal = new bootstrap.Modal(document.getElementById("loginModal"));
+    loginModal.show();
+  };
+
+  const openRegisterModal = () => {
+    const registerModal = new bootstrap.Modal(document.getElementById("registrationModal"));
+    registerModal.show();
+  };
+
+  if (loginLink) {
+    loginLink.addEventListener("click", function (e) {
+      e.preventDefault();
+      openLoginModal();
+    });
+  }
+
+  if (loginButton) {
+    loginButton.addEventListener("click", function (e) {
+      e.preventDefault();
+      openLoginModal();
+    });
+  }
+
+  if (registerLink) {
+    registerLink.addEventListener("click", function (e) {
+      e.preventDefault();
+      openRegisterModal();
+    });
+  }
+
+  if (registerButton) {
+    registerButton.addEventListener("click", function (e) {
+      e.preventDefault();
+      openRegisterModal();
+    });
+  }
+});
+
+const username = document.getElementById("username");
+const password = document.getElementById("password");
+const newUsername = document.getElementById("newUsername");
+const newPassword = document.getElementById("newPassword");
+
+const loginBtn = document.getElementById("loginBtn");
+const registerBtn = document.getElementById("registerBtn");
+
+function toggleLoginButton() {
+  if (username.value.trim() && password.value.trim()) {
+    loginBtn.disabled = false;
+  } else {
+    loginBtn.disabled = true;
+  }
+}
+
+function toggleRegisterButton() {
+  if (newUsername.value.trim() && newPassword.value.trim()) {
+    registerBtn.disabled = false;
+  } else {
+    registerBtn.disabled = true;
+  }
+}
+
+username.addEventListener('input', toggleLoginButton);
+password.addEventListener('input', toggleLoginButton);
+newUsername.addEventListener('input' ,toggleRegisterButton);
+newPassword.addEventListener('input' ,toggleRegisterButton);
+
+async function handleLogin() {
+  const usernameValue = username.value;
+  const passwordValue = password.value;
+
+  console.log(usernameValue);
+  console.log(passwordValue);
+  console.log("Inside login"); 
+}
+
+async function handleRegister() {
+  const newUsernameValue = newUsername.value;
+  const newPasswordValue = newPassword.value;
+
+  console.log(newUsernameValue);
+  console.log(newPasswordValue);
+  console.log("Inside register")
+}
+
+
+
+
