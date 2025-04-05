@@ -110,6 +110,8 @@ async function handleLogin() {
     username.value = "";
     password.value = "";
     $("#loginModal").modal("hide");
+
+    loadRecords();  //load records once logged in
   } catch (err) {
     username.value = "";
     password.value = "";
@@ -156,9 +158,6 @@ async function handleRegister() {
     console.error(err);  
   }
 }
-
-
-loadRecords();
 
 async function loadRecords() {
   try {
