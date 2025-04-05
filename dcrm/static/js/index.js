@@ -112,15 +112,42 @@ async function handleLogin() {
   }
 }
 
+function isValidPassword(password) {
+  const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  return regex.test(password);
+}
+
 async function handleRegister() {
   const newUsernameValue = newUsername.value;
   const newPasswordValue = newPassword.value;
 
-  console.log(newUsernameValue);
-  console.log(newPasswordValue);
-  console.log("Inside register")
+  if (!isValidPassword(newPasswordValue)) {
+    alert("Password must be at least 8 characters long and include uppercase, lowercase, number, and special character.");
+    return;
+  }
+
+  try {
+    await axios.post("/api/user/register", {
+      username: newUsernameValue,
+      password: newPasswordValue
+    });
+    
+    const response = await axios.post("/api/auth/token", {
+      username: newUsernameValue,
+      password: newPasswordValue
+    });
+    localStorage.setItem("access", response.data.access);
+    localStorage.setItem("refresh", response.data.refresh);
+    
+    newUsername.value = "";
+    newPassword.value = "";
+    $("#registrationModal").modal("hide");
+    alert("Registration successful! Please Login!!");
+  } catch (err) {
+    username.value = "";
+    password.value = "";
+    alert("Invalid Register");
+    console.error(err);  
+  }
 }
-
-
-
 
