@@ -194,8 +194,11 @@ async function loadRecords() {
 }
 
 function handleLogout(e) {
-  localStorage.clear();
-  location.reload();
+  const confirmed = confirm("Are you sure you want to log out?");
+  if (confirmed) {
+    localStorage.clear();
+    location.reload();
+  }
 };
 
 if (token) loadRecords();
