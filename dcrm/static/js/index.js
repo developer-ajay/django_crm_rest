@@ -61,6 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
+const token = localStorage.getItem("access");
 const username = document.getElementById("username");
 const password = document.getElementById("password");
 const newUsername = document.getElementById("newUsername");
@@ -95,6 +96,7 @@ username.addEventListener('input', toggleLoginButton);
 password.addEventListener('input', toggleLoginButton);
 newUsername.addEventListener('input' ,toggleRegisterButton);
 newPassword.addEventListener('input' ,toggleRegisterButton);
+logOutLink.addEventListener("click", handleLogout);
 
 async function handleLogin() {
   const usernameValue = username.value;
@@ -154,7 +156,7 @@ async function handleRegister() {
   } catch (err) {
     username.value = "";
     password.value = "";
-    alert("Invalid Register");
+    alert("Invalid Register, User already exists!");
     console.error(err);  
   }
 }
@@ -179,8 +181,9 @@ async function loadRecords() {
         <td>${record.first_name}</td>
         <td>${record.last_name}</td>
         <td>${record.email}</td>
-        <td>${record.phone}</td>
+        <td>${record.state}</td>
         <td>${record.city}</td>
+        <td>${record.phone}</td>
       </tr>`;
       recordBody.innerHTML += row;
     });
@@ -189,3 +192,10 @@ async function loadRecords() {
     console.error(err);
   }
 }
+
+function handleLogout(e) {
+  localStorage.clear();
+  location.reload();
+};
+
+if (token) loadRecords();
