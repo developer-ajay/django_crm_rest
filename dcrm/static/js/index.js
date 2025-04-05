@@ -68,6 +68,12 @@ const newPassword = document.getElementById("newPassword");
 
 const loginBtn = document.getElementById("loginBtn");
 const registerBtn = document.getElementById("registerBtn");
+const homeContent = document.getElementById("homeContent");
+const recordSection = document.getElementById("recordSection");
+const loginLink = document.getElementById("loginLink");
+const registerLink = document.getElementById("registerLink"); 
+const logOutLink = document.getElementById("logOutLink");
+const recordBody = document.getElementById("recordBody");
 
 function toggleLoginButton() {
   if (username.value.trim() && password.value.trim()) {
@@ -151,3 +157,36 @@ async function handleRegister() {
   }
 }
 
+
+loadRecords();
+
+async function loadRecords() {
+  try {
+    const res = await axios.get("/api/records/", {
+      headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
+    });
+
+    console.log(res.data);
+    homeContent.style.display = "none";
+    loginLink.style.display = "none";
+    registerLink.style.display = "none";
+    logOutLink.style.display = "inline-block";
+    recordSection.style.display = "block";
+    
+    
+    recordBody.innerHTML = "";
+    res.data.forEach((record) => {
+      const row = `<tr style='cursor: pointer;' onclick="window.location='record?id=${record.id}'">
+        <td>${record.first_name}</td>
+        <td>${record.last_name}</td>
+        <td>${record.email}</td>
+        <td>${record.phone}</td>
+        <td>${record.city}</td>
+      </tr>`;
+      recordBody.innerHTML += row;
+    });
+
+  } catch (err) {
+    console.error(err);
+  }
+}
