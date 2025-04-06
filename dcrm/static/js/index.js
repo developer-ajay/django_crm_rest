@@ -75,6 +75,7 @@ const loginLink = document.getElementById("loginLink");
 const registerLink = document.getElementById("registerLink"); 
 const logOutLink = document.getElementById("logOutLink");
 const recordBody = document.getElementById("recordBody");
+const addrecordLink = document.getElementById("addRecordLink");
 
 function toggleLoginButton() {
   if (username.value.trim() && password.value.trim()) {
@@ -172,6 +173,7 @@ async function loadRecords() {
     loginLink.style.display = "none";
     registerLink.style.display = "none";
     logOutLink.style.display = "inline-block";
+    addrecordLink.style.display = "inline-block";
     recordSection.style.display = "block";
     
     
