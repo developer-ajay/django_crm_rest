@@ -16,11 +16,22 @@
 
 
 document.addEventListener("DOMContentLoaded", function () {
+  const addRecordLink = document.getElementById("addRecordLink");
+  const recordFormSection = document.getElementById("recordFormSection");
+  const homeContent = document.getElementById("homeContent");
+  const recordSection = document.getElementById("recordSection");
+
   const loginLink = document.getElementById("loginLink");
   const registerLink = document.getElementById("registerLink");
   const loginButton = document.getElementById("mainLoginBtn");
   const registerButton = document.getElementById("mainRegisterBtn");
-  
+
+  addRecordLink.addEventListener("click", function (e) {
+    e.preventDefault();
+    recordFormSection.style.display = "block";
+    homeContent.style.display = "none"; 
+    recordSection.style.display = "none"; 
+  });
 
   const openLoginModal = () => {
     const loginModal = new bootstrap.Modal(document.getElementById("loginModal"));
@@ -179,7 +190,7 @@ async function loadRecords() {
     
     recordBody.innerHTML = "";
     res.data.forEach((record) => {
-      const row = `<tr style='cursor: pointer;' onclick="window.location='api/record/${record.id}'">
+      const row = `<tr style='cursor: pointer;' onclick=recordDetails(${record.id})>
         <td>${record.first_name}</td>
         <td>${record.last_name}</td>
         <td>${record.email}</td>
@@ -202,5 +213,41 @@ function handleLogout(e) {
     location.reload();
   }
 };
+
+
+async function recordDetails(pk) {
+  try {
+    const res = await axios.get(`/api/record/${pk}/`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
+    });
+    console.log(res.data);
+    const data = res.data;
+    document.getElementById("first_name").value = data.first_name || "";
+    document.getElementById("last_name").value = data.last_name || "";
+    document.getElementById("email").value = data.email || "";
+    document.getElementById("phone").value = data.phone || "";
+    document.getElementById("address").value = data.address || "";
+    document.getElementById("city").value = data.city || "";
+    document.getElementById("state").value = data.state || "";
+    document.getElementById("zip_code").value = data.zipcode || "";
+
+    document.getElementById("formTitle").textContent = "Edit Record";
+    document.getElementById("updateSubmitBtn").innerHTML = '<i class="fas fa-save"></i> Update';
+    document.getElementById("deleteBtn").style.display = "inline-block";
+
+    homeContent.style.display = "none";
+    loginLink.style.display = "none";
+    registerLink.style.display = "none";
+    logOutLink.style.display = "inline-block";
+    addrecordLink.style.display = "inline-block";
+    recordSection.style.display = "none";
+    const recordFormSection = document.getElementById("recordFormSection");
+    recordFormSection.style.display = "block";
+  } catch (err) {
+    console.error(err);
+  }
+ 
+}
+
 
 if (token) loadRecords();
