@@ -31,6 +31,10 @@ document.addEventListener("DOMContentLoaded", function () {
     recordFormSection.style.display = "block";
     homeContent.style.display = "none"; 
     recordSection.style.display = "none"; 
+    addRecordLink.style.display = "none";
+    loginLink.style.display = "none";
+    registerLink.style.display = "none";
+    logOutLink.style.display = "none";
   });
 
   const openLoginModal = () => {
