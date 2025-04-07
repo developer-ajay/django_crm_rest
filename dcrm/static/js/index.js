@@ -179,7 +179,7 @@ async function loadRecords() {
     
     recordBody.innerHTML = "";
     res.data.forEach((record) => {
-      const row = `<tr style='cursor: pointer;' onclick="window.location='record?id=${record.id}'">
+      const row = `<tr style='cursor: pointer;' onclick="window.location='api/record/${record.id}'">
         <td>${record.first_name}</td>
         <td>${record.last_name}</td>
         <td>${record.email}</td>
