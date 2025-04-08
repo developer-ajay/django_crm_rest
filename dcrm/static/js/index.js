@@ -285,6 +285,24 @@ async function recordDetails(pk) {
     submitBtn.addEventListener("click", async (e) => {
       e.preventDefault();
       console.log("clicked update button");
+
+      if (!recordForm.checkValidity()) {
+        recordForm.reportValidity(); // Show native browser validation messages
+        return;
+      }
+
+      const updatedData = {
+        first_name: document.getElementById("first_name").value.trim(),
+        last_name: document.getElementById("last_name").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        phone: document.getElementById("phone").value.trim(),
+        address: document.getElementById("address").value.trim(),
+        city: document.getElementById("city").value.trim(),
+        state: document.getElementById("state").value.trim(),
+        zipcode: document.getElementById("zip_code").value.trim(),
+      };
+    
+      console.log("Updated Data:", updatedData);
     });
 
   } catch (err) {
