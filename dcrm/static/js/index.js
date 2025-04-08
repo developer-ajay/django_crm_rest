@@ -250,7 +250,7 @@ async function recordDetails(pk) {
     });
 
     const data = res.data;
-
+    
     document.getElementById("first_name").value = data.first_name || "";
     document.getElementById("last_name").value = data.last_name || "";
     document.getElementById("email").value = data.email || "";
@@ -303,6 +303,12 @@ async function recordDetails(pk) {
       };
     
       console.log("Updated Data:", updatedData);
+      
+      const res = await axios.patch(`/api/record/${pk}/`, updatedData,  {
+        headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
+      });
+      console.log(res);
+
     });
 
   } catch (err) {
