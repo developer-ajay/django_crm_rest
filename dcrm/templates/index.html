@@ -131,7 +131,7 @@
         
         <input class="form-control mb-2" placeholder="Zip Code" id="zip_code" name="zipCode" type="text" required pattern="\d{6}" title="Enter a valid 6-digit ZIP code" maxlength="6" />
         
-        <a href={% url 'home' %} class="btn btn-secondary">
+        <a type="button" class="btn btn-secondary me-2" onclick="loadRecords()">
           <i class="fas fa-arrow-left"></i> Back
         </a>
         

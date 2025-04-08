@@ -14,6 +14,26 @@
 //     console.log(err);
 // });
 
+let currentRecordId = null;
+
+const token = localStorage.getItem("access");
+const username = document.getElementById("username");
+const password = document.getElementById("password");
+const newUsername = document.getElementById("newUsername");
+const newPassword = document.getElementById("newPassword");
+
+const homeContent = document.getElementById("homeContent");
+const recordSection = document.getElementById("recordSection");
+const loginLink = document.getElementById("loginLink");
+const registerLink = document.getElementById("registerLink"); 
+const logOutLink = document.getElementById("logOutLink");
+const recordBody = document.getElementById("recordBody");
+const addrecordLink = document.getElementById("addRecordLink");
+const submitBtn = document.getElementById("updateSubmitBtn");
+const recordFormSection = document.getElementById("recordFormSection");
+const recordForm = document.getElementById("recordForm");
+const loginBtn = document.getElementById("loginBtn");
+const registerBtn = document.getElementById("registerBtn");
 
 document.addEventListener("DOMContentLoaded", function () {
   const addRecordLink = document.getElementById("addRecordLink");
@@ -37,6 +57,19 @@ document.addEventListener("DOMContentLoaded", function () {
     loginLink.style.display = "none";
     registerLink.style.display = "none";
     logOutLink.style.display = "none";
+    
+    const recordForm = document.getElementById("recordForm");
+    [...recordForm.elements].forEach(el => {
+      if (el.tagName === "INPUT") {
+        el.value = "";
+      }
+    });
+
+    currentRecordId = null;
+    document.getElementById("formTitle").textContent = "Add Record";
+    document.getElementById("updateSubmitBtn").innerHTML = '<i class="fas fa-save"></i> Submit';
+    document.getElementById("deleteBtn").style.display = "none";
+
   });
 
   const openLoginModal = () => {
@@ -78,25 +111,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-const token = localStorage.getItem("access");
-const username = document.getElementById("username");
-const password = document.getElementById("password");
-const newUsername = document.getElementById("newUsername");
-const newPassword = document.getElementById("newPassword");
-
-const loginBtn = document.getElementById("loginBtn");
-const registerBtn = document.getElementById("registerBtn");
-const homeContent = document.getElementById("homeContent");
-const recordSection = document.getElementById("recordSection");
-const loginLink = document.getElementById("loginLink");
-const registerLink = document.getElementById("registerLink"); 
-const logOutLink = document.getElementById("logOutLink");
-const recordBody = document.getElementById("recordBody");
-const addrecordLink = document.getElementById("addRecordLink");
-const submitBtn = document.getElementById("updateSubmitBtn");
-const recordFormSection = document.getElementById("recordFormSection");
-const recordForm = document.getElementById("recordForm");
-
 function toggleLoginButton() {
   if (username.value.trim() && password.value.trim()) {
     loginBtn.disabled = false;
@@ -104,6 +118,8 @@ function toggleLoginButton() {
     loginBtn.disabled = true;
   }
 }
+username.addEventListener('input', toggleLoginButton);
+password.addEventListener('input', toggleLoginButton);
 
 function toggleRegisterButton() {
   if (newUsername.value.trim() && newPassword.value.trim()) {
@@ -112,12 +128,9 @@ function toggleRegisterButton() {
     registerBtn.disabled = true;
   }
 }
-
-username.addEventListener('input', toggleLoginButton);
-password.addEventListener('input', toggleLoginButton);
 newUsername.addEventListener('input' ,toggleRegisterButton);
 newPassword.addEventListener('input' ,toggleRegisterButton);
-logOutLink.addEventListener("click", handleLogout);
+
 
 async function handleLogin() {
   const usernameValue = username.value;
@@ -192,6 +205,7 @@ async function loadRecords() {
     homeContent.style.display = "none";
     loginLink.style.display = "none";
     registerLink.style.display = "none";
+    recordFormSection.style.display="none";
     logOutLink.style.display = "inline-block";
     addrecordLink.style.display = "inline-block";
     recordSection.style.display = "block";
@@ -221,8 +235,8 @@ function handleLogout(e) {
     localStorage.clear();
     window.location.href = "/";
   }
-};
-
+}
+logOutLink.addEventListener("click", handleLogout);
 
 function checkForChanges() {
   let hasChanged = false;
@@ -240,7 +254,7 @@ function checkForChanges() {
   updateSubmitBtn.disabled = !hasChanged;
 }
 
-const initialValues = {};
+let initialValues = {};
 recordForm.addEventListener('input', checkForChanges);
 
 async function recordDetails(pk) {
@@ -279,42 +293,46 @@ async function recordDetails(pk) {
         initialValues[el.name] = el.value;
       }
     });
-
-    console.log("Initial Values:", initialValues);
-
-    submitBtn.addEventListener("click", async (e) => {
-      e.preventDefault();
-      console.log("clicked update button");
-
-      if (!recordForm.checkValidity()) {
-        recordForm.reportValidity(); // Show native browser validation messages
-        return;
-      }
-
-      const updatedData = {
-        first_name: document.getElementById("first_name").value.trim(),
-        last_name: document.getElementById("last_name").value.trim(),
-        email: document.getElementById("email").value.trim(),
-        phone: document.getElementById("phone").value.trim(),
-        address: document.getElementById("address").value.trim(),
-        city: document.getElementById("city").value.trim(),
-        state: document.getElementById("state").value.trim(),
-        zipcode: document.getElementById("zip_code").value.trim(),
-      };
-    
-      console.log("Updated Data:", updatedData);
-      
-      const res = await axios.patch(`/api/record/${pk}/`, updatedData,  {
-        headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
-      });
-      console.log(res);
-
-    });
-
+    currentRecordId = pk;
   } catch (err) {
     console.error(err);
   }
 }
 
+submitBtn.addEventListener("click", async (e) => {
+  e.preventDefault();
+
+  if (!recordForm.checkValidity()) {
+    recordForm.reportValidity(); // Show native browser validation messages
+    return;
+  }
+
+  const updatedData = {
+    first_name: document.getElementById("first_name").value.trim(),
+    last_name: document.getElementById("last_name").value.trim(),
+    email: document.getElementById("email").value.trim(),
+    phone: document.getElementById("phone").value.trim(),
+    address: document.getElementById("address").value.trim(),
+    city: document.getElementById("city").value.trim(),
+    state: document.getElementById("state").value.trim(),
+    zipcode: document.getElementById("zip_code").value.trim(),
+  };
+
+  console.log("Updated Data:", updatedData);
+  
+  try {
+
+     await axios.patch(`/api/record/${currentRecordId}/`, updatedData,  {
+      headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
+    });
+    
+    initialValues = {};
+    loadRecords(); 
+    
+  } catch (error) {
+      console.log(error);    
+  }
+
+});
 
 if (token) loadRecords();
