@@ -115,23 +115,36 @@
     </div>
     <div class="card-body">
       <form id="recordForm">
-        <input class="form-control mb-2" placeholder="First Name" id="first_name" name="firstName" required />
-        <input class="form-control mb-2" placeholder="Last Name" id="last_name" name="lastName" required />
-        <input class="form-control mb-2" placeholder="Email" id="email" name="Email" required />
-        <input class="form-control mb-2" placeholder="Phone" id="phone" name="phoneNumber" required />
-        <input class="form-control mb-2" placeholder="Address" id="address" name="Address" required />
-        <input class="form-control mb-2" placeholder="City" id="city" name="City" required />
-        <input class="form-control mb-2" placeholder="State" id="state" name="State" required />
-        <input class="form-control mb-2" placeholder="Zip Code" id="zip_code" name="zipCode" required />
+        <input class="form-control mb-2" placeholder="First Name" id="first_name" name="firstName" required pattern="[A-Za-z\s]{2,}" title="Only letters and spaces, minimum 2 characters" />
+        
+        <input class="form-control mb-2" placeholder="Last Name" id="last_name" name="lastName" required pattern="[A-Za-z\s]{2,}" title="Only letters and spaces, minimum 2 characters" />
+        
+        <input class="form-control mb-2" placeholder="Email" id="email" name="Email" required type="email" />
+        
+        <input class="form-control mb-2" placeholder="Phone" id="phone" name="phoneNumber" required pattern="[0-9]{10}" title="Enter a 10-digit phone number" maxlength="10" />
+        
+        <input class="form-control mb-2" placeholder="Address" id="address" name="Address" required minlength="5" maxlength="100" title="Address should be between 5 and 100 characters" />
+        
+        <input class="form-control mb-2" placeholder="City" id="city" name="City" required pattern="[A-Za-z\s]{2,}" title="Only letters and spaces, minimum 2 characters" />
+        
+        <input class="form-control mb-2" placeholder="State" id="state" name="State" required pattern="[A-Za-z\s]{2,}" title="Only letters and spaces, minimum 2 characters" />
+        
+        <input class="form-control mb-2" placeholder="Zip Code" id="zip_code" name="zipCode" type="text" required pattern="\d{6}" title="Enter a valid 6-digit ZIP code" maxlength="6" />
+        
         <a href={% url 'home' %} class="btn btn-secondary">
           <i class="fas fa-arrow-left"></i> Back
-      </a>
-        <button type="submit" class="btn btn-primary" id="updateSubmitBtn" disabled> <i class="fas fa-save"></i> Submit </button>
-        <button type="button" class="btn btn-danger ms-2" id="deleteBtn" style="display: none;"><i class="fas fa-trash-alt"></i> Delete</button>
+        </a>
+        
+        <button type="submit" class="btn btn-primary" id="updateSubmitBtn" disabled>
+          <i class="fas fa-save"></i> Submit
+        </button>
+        
+        <button type="button" class="btn btn-danger ms-2" id="deleteBtn" style="display: none;">
+          <i class="fas fa-trash-alt"></i> Delete
+        </button>
       </form>
     </div>
   </div>
-
 </div>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
