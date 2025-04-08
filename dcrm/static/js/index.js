@@ -25,10 +25,12 @@ document.addEventListener("DOMContentLoaded", function () {
   const registerLink = document.getElementById("registerLink");
   const loginButton = document.getElementById("mainLoginBtn");
   const registerButton = document.getElementById("mainRegisterBtn");
+  const updateSubBtn = document.getElementById("updateSubmitBtn");
 
   addRecordLink.addEventListener("click", function (e) {
     e.preventDefault();
     recordFormSection.style.display = "block";
+    updateSubBtn.disabled = false;
     homeContent.style.display = "none"; 
     recordSection.style.display = "none"; 
     addRecordLink.style.display = "none";
