@@ -220,6 +220,7 @@ async function loadRecords() {
         <td>${record.state}</td>
         <td>${record.city}</td>
         <td>${record.phone}</td>
+        <td>${record.zipcode}</td>
       </tr>`;
       recordBody.innerHTML += row;
     });
