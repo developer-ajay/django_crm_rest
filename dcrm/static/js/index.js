@@ -91,6 +91,9 @@ const registerLink = document.getElementById("registerLink");
 const logOutLink = document.getElementById("logOutLink");
 const recordBody = document.getElementById("recordBody");
 const addrecordLink = document.getElementById("addRecordLink");
+const submitBtn = document.getElementById("updateSubmitBtn");
+const recordFormSection = document.getElementById("recordFormSection");
+const recordForm = document.getElementById("recordForm");
 
 function toggleLoginButton() {
   if (username.value.trim() && password.value.trim()) {
@@ -219,13 +222,33 @@ function handleLogout(e) {
 };
 
 
+function checkForChanges() {
+  let hasChanged = false;
+
+  [...recordForm.elements].forEach(el => {
+    if (el.name) {
+      const initial = (initialValues[el.name] || "").trim();
+      const current = (el.value || "").trim();
+      if (initial !== current) {
+        hasChanged = true;
+      }
+    }
+  });
+
+  updateSubmitBtn.disabled = !hasChanged;
+}
+
+const initialValues = {};
+recordForm.addEventListener('input', checkForChanges);
+
 async function recordDetails(pk) {
   try {
     const res = await axios.get(`/api/record/${pk}/`, {
-    headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
+      headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
     });
-    console.log(res.data);
+
     const data = res.data;
+
     document.getElementById("first_name").value = data.first_name || "";
     document.getElementById("last_name").value = data.last_name || "";
     document.getElementById("email").value = data.email || "";
@@ -235,22 +258,36 @@ async function recordDetails(pk) {
     document.getElementById("state").value = data.state || "";
     document.getElementById("zip_code").value = data.zipcode || "";
 
-    document.getElementById("formTitle").textContent = "Edit Record";
-    document.getElementById("updateSubmitBtn").innerHTML = '<i class="fas fa-save"></i> Update';
-    document.getElementById("deleteBtn").style.display = "inline-block";
-
     homeContent.style.display = "none";
     loginLink.style.display = "none";
     registerLink.style.display = "none";
     logOutLink.style.display = "inline-block";
     addrecordLink.style.display = "inline-block";
     recordSection.style.display = "none";
-    const recordFormSection = document.getElementById("recordFormSection");
     recordFormSection.style.display = "block";
+
+    document.getElementById("formTitle").textContent = "Edit Record";
+    document.getElementById("updateSubmitBtn").innerHTML = '<i class="fas fa-save"></i> Update';
+    document.getElementById("deleteBtn").style.display = "inline-block";
+
+    const recordForm = document.getElementById("recordForm");
+
+    [...recordForm.elements].forEach(el => {
+      if (el.name) {
+        initialValues[el.name] = el.value;
+      }
+    });
+
+    console.log("Initial Values:", initialValues);
+
+    submitBtn.addEventListener("click", async (e) => {
+      e.preventDefault();
+      console.log("clicked update button");
+    });
+
   } catch (err) {
     console.error(err);
   }
- 
 }
 
 
