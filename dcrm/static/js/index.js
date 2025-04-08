@@ -326,7 +326,12 @@ submitBtn.addEventListener("click", async (e) => {
       headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
     });
     
-    initialValues = {};
+    [...recordForm.elements].forEach(el => {
+      if (el.name) {
+        initialValues[el.name] = el.value;
+      }
+    });
+    checkForChanges(); 
     loadRecords(); 
     
   } catch (error) {
