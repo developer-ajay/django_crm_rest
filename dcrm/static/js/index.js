@@ -217,7 +217,7 @@ function handleLogout(e) {
   const confirmed = confirm("Are you sure you want to log out?");
   if (confirmed) {
     localStorage.clear();
-    location.reload();
+    window.location.href = "/";
   }
 };
 
@@ -261,8 +261,8 @@ async function recordDetails(pk) {
     homeContent.style.display = "none";
     loginLink.style.display = "none";
     registerLink.style.display = "none";
-    logOutLink.style.display = "inline-block";
-    addrecordLink.style.display = "inline-block";
+    logOutLink.style.display = "none";
+    addrecordLink.style.display = "none";
     recordSection.style.display = "none";
     recordFormSection.style.display = "block";
 
