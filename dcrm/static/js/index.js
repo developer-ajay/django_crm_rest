@@ -284,6 +284,9 @@ async function recordDetails(pk) {
     document.getElementById("formTitle").textContent = "Edit Record";
     document.getElementById("updateSubmitBtn").innerHTML = '<i class="fas fa-save"></i> Update';
     document.getElementById("deleteBtn").style.display = "inline-block";
+    document.getElementById("deleteBtn").onclick = function() {
+      deleteRecord(pk);
+    };
 
     const recordForm = document.getElementById("recordForm");
 
@@ -347,5 +350,9 @@ submitBtn.addEventListener("click", async (e) => {
     alert("Something went wrong. Please try again.");
   }
 });
+
+function deleteRecord(pk){
+  console.log(pk);
+}
 
 if (token) loadRecords();
