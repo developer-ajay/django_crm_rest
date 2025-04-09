@@ -66,6 +66,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     currentRecordId = null;
+    initialValues = {};
+    
     document.getElementById("formTitle").textContent = "Add Record";
     document.getElementById("updateSubmitBtn").innerHTML = '<i class="fas fa-save"></i> Submit';
     document.getElementById("deleteBtn").style.display = "none";
@@ -341,6 +343,14 @@ submitBtn.addEventListener("click", async (e) => {
       await axios.post("/api/records/", updatedData, {
         headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
       });
+
+      [...recordForm.elements].forEach((el) => {
+        if (el.name) {
+          initialValues[el.name] = el.value;
+        }
+      });
+
+      checkForChanges();
     }
 
     loadRecords();
@@ -351,8 +361,20 @@ submitBtn.addEventListener("click", async (e) => {
   }
 });
 
-function deleteRecord(pk){
+
+async function deleteRecord(pk){
   console.log(pk);
+  if (!confirm("Are you sure you want to delete this record?")) return;
+  
+  try {
+    await axios.delete(`/api/record/${pk}/`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
+    });
+    loadRecords();
+  } catch (error) {
+    console.error("Error deleting record:", error);
+    alert("Something went wrong. Please try again.");
+  }
 }
 
 if (token) loadRecords();
