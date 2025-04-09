@@ -131,7 +131,6 @@ function toggleRegisterButton() {
 newUsername.addEventListener('input' ,toggleRegisterButton);
 newPassword.addEventListener('input' ,toggleRegisterButton);
 
-
 async function handleLogin() {
   const usernameValue = username.value;
   const passwordValue = password.value;
@@ -254,7 +253,6 @@ function checkForChanges() {
 
   updateSubmitBtn.disabled = !hasChanged;
 }
-
 let initialValues = {};
 recordForm.addEventListener('input', checkForChanges);
 
@@ -307,38 +305,42 @@ submitBtn.addEventListener("click", async (e) => {
     recordForm.reportValidity(); // Show native browser validation messages
     return;
   }
-
-  const updatedData = {
-    first_name: document.getElementById("first_name").value.trim(),
-    last_name: document.getElementById("last_name").value.trim(),
-    email: document.getElementById("email").value.trim(),
-    phone: document.getElementById("phone").value.trim(),
-    address: document.getElementById("address").value.trim(),
-    city: document.getElementById("city").value.trim(),
-    state: document.getElementById("state").value.trim(),
-    zipcode: document.getElementById("zip_code").value.trim(),
-  };
-
-  console.log("Updated Data:", updatedData);
   
-  try {
+  if (currentRecordId){       
+        const updatedData = {
+          first_name: document.getElementById("first_name").value.trim(),
+          last_name: document.getElementById("last_name").value.trim(),
+          email: document.getElementById("email").value.trim(),
+          phone: document.getElementById("phone").value.trim(),
+          address: document.getElementById("address").value.trim(),
+          city: document.getElementById("city").value.trim(),
+          state: document.getElementById("state").value.trim(),
+          zipcode: document.getElementById("zip_code").value.trim(),
+        };
 
-     await axios.patch(`/api/record/${currentRecordId}/`, updatedData,  {
-      headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
-    });
-    
-    [...recordForm.elements].forEach(el => {
-      if (el.name) {
-        initialValues[el.name] = el.value;
-      }
-    });
-    checkForChanges(); 
-    loadRecords(); 
-    
-  } catch (error) {
-      console.log(error);    
+        console.log("Updated Data:", updatedData);
+        
+        try {
+
+          await axios.patch(`/api/record/${currentRecordId}/`, updatedData,  {
+            headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
+          });
+          
+          [...recordForm.elements].forEach(el => {
+            if (el.name) {
+              initialValues[el.name] = el.value;
+            }
+          });
+          checkForChanges(); 
+          loadRecords(); 
+          currentRecordId = null;
+        } catch (error) {
+            console.log(error);    
+        }
   }
-
+  else {
+       console.log("Submit new record!!")
+  }
 });
 
 if (token) loadRecords();
